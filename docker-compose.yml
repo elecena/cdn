@@ -23,7 +23,7 @@ services:
         traefik.enable: true
         traefik.http.routers.cdn_elecena.tls.certresolver: letsencrypt
         traefik.http.routers.cdn_elecena.rule: Host(`elecena.cdn.macbre.net`)
-        traefik.http.services.cdn_elecena.loadbalancer.server.port: 2000
+        traefik.http.services.cdn_elecena.loadbalancer.server.port: 2020
 
     healthcheck:
       test: 'wget -q --spider -U "wget/healthcheck" http://localhost:2020/favicon.ico'
