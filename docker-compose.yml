@@ -1,4 +1,4 @@
-version: "2.4"
+version: "3.4"
 
 services:
 
@@ -20,7 +20,7 @@ services:
       - "./nginx-cdn.conf:/etc/nginx/conf.d/cdn.conf"
 
     environment:
-        traefik.enable: true
+        traefik.enable: 'true'
         traefik.http.routers.cdn_elecena.tls.certresolver: letsencrypt
         traefik.http.routers.cdn_elecena.rule: Host(`static.elecena.pl`)
         traefik.http.services.cdn_elecena.loadbalancer.server.port: 2020
