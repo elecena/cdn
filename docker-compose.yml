@@ -19,8 +19,8 @@ services:
       - "./nginx.conf:/etc/nginx/main.d/main.conf"
       - "./nginx-cdn.conf:/etc/nginx/conf.d/cdn.conf"
 
-    environment:
-        traefik.enable: 'true'
+    labels:
+        traefik.enable: true
         traefik.http.routers.cdn_elecena.tls.certresolver: letsencrypt
         traefik.http.routers.cdn_elecena.rule: Host(`static.elecena.pl`)
         traefik.http.services.cdn_elecena.loadbalancer.server.port: 2020
