@@ -1,0 +1,41 @@
+version: "2.4"
+
+services:
+
+  # https://doc.traefik.io/traefik/getting-started/install-traefik/
+  cdn:
+    # docker pull ghcr.io/macbre/nginx-http3:1.23.2
+    image: ghcr.io/macbre/nginx-http3:1.23.2
+    container_name: elecena-cdn
+    hostname: cdn.elecena.pl
+    restart: on-failure
+
+    ports:
+      - 127.0.0.1:2020:2020  # bind to local interface only!
+      - 127.0.0.1:2021:2021  # bind to local interface only!
+
+    volumes:
+      - "thumbnails:/tmp/thumbnails:rw"
+      - "./nginx.conf:/etc/nginx/main.d/main.conf"
+      - "./nginx-cdn.conf:/etc/nginx/conf.d/cdn.conf"
+
+    environment:
+        traefik.enable: true
+        traefik.http.routers.cdn_elecena.tls.certresolver: letsencrypt
+        traefik.http.routers.cdn_elecena.rule: Host(`elecena.cdn.macbre.net`)
+        traefik.http.services.cdn_elecena.loadbalancer.server.port: 2000
+
+    healthcheck:
+      test: 'wget -q --spider -U "wget/healthcheck" http://localhost:2020/favicon.ico'
+      interval: 5s
+      timeout: 1s
+      retries: 3
+
+volumes:
+  thumbnails:
+
+# https://docs.docker.com/compose/networking/#configure-the-default-network
+networks:
+  default:
+    name: public-network
+    external: true
