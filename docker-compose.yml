@@ -21,6 +21,7 @@ services:
 
     labels:
         traefik.enable: true
+        traefik.http.routers.cdn_elecena.tls.certresolver: letsencrypt
         traefik.http.routers.cdn_elecena.rule: Host(`static.elecena.pl`)
         traefik.http.services.cdn_elecena.loadbalancer.server.port: 2020
 
