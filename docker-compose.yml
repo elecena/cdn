@@ -25,7 +25,7 @@ services:
         traefik.http.services.cdn_elecena.loadbalancer.server.port: 2020
 
     healthcheck:
-      test: 'wget -q --spider -U "wget/healthcheck" http://localhost:2020/favicon.ico'
+      test: 'wget -q --spider -U "wget/healthcheck" http://0.0.0.0:2020/favicon.ico'
       interval: 5s
       timeout: 1s
       retries: 3
