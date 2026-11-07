@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  # Triggers the workflow on push or pull request events
+  push:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v7
+
+    - name: Start containers
+      run: |
+        docker compose up -d
+        chmod 777 thumbnails
+        sleep 2
+        docker ps
+
+    - name: Check nginx healthiness
+      run: |
+        curl -s http://127.0.0.1:2020 | grep Hello
+        curl -sI http://127.0.0.1:2020/favicon.ico | grep 204
+        curl -s http://127.0.0.1:2020/thumb/a/8/5/a85c303a45cd7a6b3745cb9aaa6b4f19.jpg | file - | grep -i jpeg
+
+    - name: Check that we block bots
+      run: |
+        curl -svo /dev/null http://127.0.0.1:2020/thumb/a/8/5/a85c303a45cd7a6b3745cb9aaa6b4f19.jpg -A "GoogleBot" 2>&1 | grep 418
+
+    - name: Show container's logs and thumbnails cache
+      if: always()
+      run: |
+        set -x
+        ls -lha thumbnails/*
+        docker compose logs
