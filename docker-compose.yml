@@ -21,6 +21,8 @@ services:
         traefik.http.routers.cdn_elecena.tls.certresolver: letsencrypt
         traefik.http.routers.cdn_elecena.rule: Host(`static.elecena.pl`)
         traefik.http.services.cdn_elecena.loadbalancer.server.port: 2020
+        # https://doc.traefik.io/traefik/expose/overview/#exposing-grpc-services
+        traefik.http.services.cdn_elecena.loadbalancer.server.scheme: h2c
 
     healthcheck:
       test: 'wget -q --spider -U "wget/healthcheck" http://0.0.0.0:2020/favicon.ico'
