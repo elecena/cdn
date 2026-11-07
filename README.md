@@ -1,4 +1,5 @@
 # cdn
+[![CI](https://github.com/elecena/cdn/actions/workflows/ci.yml/badge.svg)](https://github.com/elecena/cdn/actions/workflows/ci.yml)
 
 nginx-powered CDN and image thumbnailer, proxied via Traefik.
 
