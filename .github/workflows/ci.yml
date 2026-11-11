@@ -13,9 +13,10 @@ jobs:
 
     - name: Start containers
       run: |
+        set -x
         docker network create public-network
         docker compose up -d
-        chmod 777 thumbnails
+        sudo chmod 777 thumbnails || true
         sleep 2
         docker ps
 
